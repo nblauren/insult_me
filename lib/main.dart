@@ -3,10 +3,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:insult_me/screens/quote_screen.dart';
 import 'package:insult_me/services/notification_service.dart';
 
+import 'package:timezone/data/latest.dart' as tz;
+
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   NotificationService().initNotification();
+  tz.initializeTimeZones();
   runApp(const MyApp());
 }
 
