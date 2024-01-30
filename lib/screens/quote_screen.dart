@@ -7,6 +7,7 @@ import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key});
@@ -157,7 +158,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.share),
-                    onPressed: () {},
+                    onPressed: () {
+                      Share.share(myQuoteToday!.quote);
+                    },
                   ),
                 ],
               ),
