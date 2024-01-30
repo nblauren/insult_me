@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:insult_me/screens/quote_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,13 @@ class OnBoardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        textTheme: GoogleFonts.quicksandTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        useMaterial3: true,
+      ),
       home: OnBoardingSlider(
         onFinish: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();

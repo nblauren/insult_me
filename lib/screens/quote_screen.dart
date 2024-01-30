@@ -47,106 +47,119 @@ class _QuoteScreenState extends State<QuoteScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '"',
-                textAlign: TextAlign.left,
-                textScaler: TextScaler.linear(4),
-              ),
+              const Text('"',
+                  textAlign: TextAlign.left, textScaler: TextScaler.linear(5)),
               Expanded(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      myQuoteToday == null ? 'Loading...' : myQuoteToday!.quote,
-                      textAlign: TextAlign.left,
-                      textScaler: const TextScaler.linear(4),
-                    ),
+                    child: myQuoteToday == null
+                        ? const CircularProgressIndicator()
+                        : Text(
+                            myQuoteToday!.quote,
+                            textAlign: TextAlign.left,
+                            textScaler: const TextScaler.linear(4),
+                          ),
                   ),
                 ),
               ),
-              TextButton(
-                child: const Text(
-                  'tap for more',
-                ),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Settings",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineLarge),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => Container(
+                          height: MediaQuery.of(context).size.height * 0.75,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(25.0),
+                              topRight: Radius.circular(25.0),
+                            ),
+                          ),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Expanded(
-                                    child: Text(
-                                      "Notification time",
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                      ),
-                                    ),
+                                  Text("Settings",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineLarge),
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      _showDialog(
-                                        CupertinoDatePicker(
-                                          initialDateTime: DateTime.now()
-                                              .add(const Duration(minutes: 2)),
-                                          mode: CupertinoDatePickerMode.time,
-                                          use24hFormat: false,
-                                          onDateTimeChanged:
-                                              (DateTime newTime) async {
-                                            await NotificationService()
-                                                .scheduleNotification(
-                                              1,
-                                              "Daily Insult",
-                                              "A new insult has been uttered.",
-                                              TimeOfDay.fromDateTime(newTime),
-                                              DateTimeComponents.time,
-                                            );
-                                          },
+                                  Row(
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          "Notification time",
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                          ),
                                         ),
-                                      );
-                                    },
-                                    child: Text(
-                                      DateTimeUtils.formatTime(DateTime.now()),
-                                      style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 24,
                                       ),
-                                    ),
+                                      TextButton(
+                                        onPressed: () {
+                                          _showDialog(
+                                            CupertinoDatePicker(
+                                              initialDateTime: DateTime.now()
+                                                  .add(const Duration(
+                                                      minutes: 2)),
+                                              mode:
+                                                  CupertinoDatePickerMode.time,
+                                              use24hFormat: false,
+                                              onDateTimeChanged:
+                                                  (DateTime newTime) async {
+                                                await NotificationService()
+                                                    .scheduleNotification(
+                                                  1,
+                                                  "Daily Insult",
+                                                  "A new insult has been uttered.",
+                                                  TimeOfDay.fromDateTime(
+                                                      newTime),
+                                                  DateTimeComponents.time,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          DateTimeUtils.formatTime(
+                                              DateTime.now()),
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.share),
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ],
           ),

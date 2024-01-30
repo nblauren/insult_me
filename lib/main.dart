@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:insult_me/screens/on_boarding_screen.dart';
 import 'package:insult_me/screens/quote_screen.dart';
 import 'package:insult_me/services/initial_quotes_service.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
       title: 'Insult Me',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        textTheme: GoogleFonts.quicksandTextTheme(
+          Theme.of(context).textTheme,
+        ),
         useMaterial3: true,
       ),
       initialRoute: initScreen == 0 || initScreen == null
