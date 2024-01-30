@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:insult_me/models/quote.dart';
+import 'package:insult_me/services/database_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 
@@ -14,13 +18,24 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
+  Quote? myQuoteToday;
+
   @override
   void initState() {
     super.initState();
     initialization();
   }
 
-  void initialization() async {}
+  void initialization() async {
+    var databaseService = DatabaseService();
+    await databaseService.initializeDatabase();
+    var todayQuote = await databaseService.getMyQuoteToday();
+    todayQuote ??= await databaseService.insertMyQuoteToday();
+    debugPrint(jsonEncode(todayQuote.toMap()));
+    setState(() {
+      myQuoteToday = todayQuote;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +55,12 @@ class _QuoteScreenState extends State<QuoteScreen> {
               Expanded(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Is that your best effort, or did you just start warming up?',
+                      myQuoteToday == null ? 'Loading...' : myQuoteToday!.quote,
                       textAlign: TextAlign.left,
-                      textScaler: TextScaler.linear(4),
+                      textScaler: const TextScaler.linear(4),
                     ),
                   ),
                 ),

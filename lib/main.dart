@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:insult_me/screens/on_boarding_screen.dart';
 import 'package:insult_me/screens/quote_screen.dart';
+import 'package:insult_me/services/initial_quotes_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,14 @@ Future<void> main() async {
   initScreen = prefs.getInt("initScreen");
   // End InitScreen
   FlutterNativeSplash.remove();
+  await initialiseSql();
   runApp(const MyApp());
+}
+
+Future<void> initialiseSql() async {
+  if (initScreen == 0 || initScreen == null) {
+    await InitialiseDatabaseService.importQuotes();
+  }
 }
 
 class MyApp extends StatelessWidget {

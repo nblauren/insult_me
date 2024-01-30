@@ -19,6 +19,9 @@ dependencies:
   flutter_onboarding_slider: ^1.0.11
   shared_preferences: ^2.2.2
   flutter_svg: ^2.0.9
+  sqflite: ^2.3.2
+  path: ^1.8.3
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +37,7 @@ flutter:
     - assets/images/onboarding/time.svg
     - assets/images/onboarding/share.svg
     - assets/images/onboarding/simple.svg
+    - assets/data/insults.json
 
 flutter_launcher_icons:
   android: true

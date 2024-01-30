@@ -1,0 +1,604 @@
+{
+    "insults": [
+        {
+            "id": 1,
+            "quote": "If being lazy was an art, you'd be a Picasso.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 2,
+            "quote": "Your life choices are like a GPS without a signal – lost and going nowhere.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 3,
+            "quote": "If stupidity were a sport, you'd be an Olympian.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 4,
+            "quote": "I've seen plants with more ambition than you.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 5,
+            "quote": "You're the reason they put instructions on shampoo bottles.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 6,
+            "quote": "If ignorance were bliss, you'd be in a constant state of euphoria.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 7,
+            "quote": "Your aspirations are like your Wi-Fi signal – weak and constantly dropping.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 8,
+            "quote": "You're not stupid; you just have bad luck thinking.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 9,
+            "quote": "If you were any slower, you'd be going backward in time.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 10,
+            "quote": "Your IQ test came back negative.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 11,
+            "quote": "Even a broken clock is right more often than you are.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 12,
+            "quote": "If life were a video game, you'd be on the easiest difficulty setting.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 13,
+            "quote": "You're not a loser; you just happen to be on the losing team all the time.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 14,
+            "quote": "If being a disappointment were a talent, you'd be a prodigy.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 15,
+            "quote": "I've seen more spine in a jellyfish than in your life choices.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 16,
+            "quote": "You're proof that evolution can go in reverse.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 17,
+            "quote": "If common sense were a superpower, you'd be the villain we all root against.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 18,
+            "quote": "Your idea of ambition is scrolling through social media.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 19,
+            "quote": "Even a broken pencil has more lead than you.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 20,
+            "quote": "If idiocy were a currency, you'd be a millionaire.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 21,
+            "quote": "Your life's goals are like a unicorn – everyone talks about them, but no one has seen them.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 22,
+            "quote": "If brain cells were dollars, you'd be in debt.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 23,
+            "quote": "You're not stupid; you just have an allergy to common sense.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 24,
+            "quote": "Your resume is so empty; it makes a ghost town look bustling.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 25,
+            "quote": "If disappointment were a career, you'd be the CEO.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 26,
+            "quote": "Your life choices are like a broken record – repetitive and painful to listen to.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 27,
+            "quote": "If wishes were horses, you'd still be walking.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 28,
+            "quote": "Your ambition is like a diet during a pizza party – non-existent.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 29,
+            "quote": "You're the reason the gene pool needs a lifeguard.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 30,
+            "quote": "If cluelessness were a superpower, you'd be a Marvel character.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 31,
+            "quote": "Your potential is like a distant relative – heard of, but never seen.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 32,
+            "quote": "If incompetence were a sport, you'd be the MVP.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 33,
+            "quote": "Your idea of multitasking is breathing and blinking simultaneously.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 34,
+            "quote": "If life were a puzzle, you'd be that one missing piece everyone's frustrated about.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 35,
+            "quote": "Your dreams are like Wi-Fi in a remote cabin – weak and fading.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 36,
+            "quote": "You're not a loser; you're just exceptionally good at finding ways to lose.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 37,
+            "quote": "If being delusional were a profession, you'd be a top-tier expert.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 38,
+            "quote": "Your life trajectory resembles a boomerang – always coming back to disappointment.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 39,
+            "quote": "If brains were dynamite, you wouldn't have enough to blow your nose.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 40,
+            "quote": "Your achievements are like a unicorn in a desert – non-existent and mythical.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 41,
+            "quote": "Your attention span is shorter than a goldfish with ADHD.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 42,
+            "quote": "If idiocy were a sport, you'd be a gold medalist.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 43,
+            "quote": "Your decision-making skills are like a broken GPS – constantly recalculating and leading nowhere.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 44,
+            "quote": "Your life choices are like a Choose Your Own Adventure book – and you always choose the boring ending.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 45,
+            "quote": "If you were any denser, you'd collapse into a black hole of disappointment.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 46,
+            "quote": "Your work ethic is like a unicorn – everyone talks about it, but no one's ever seen it.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 47,
+            "quote": "If you were a movie, you'd be a slow-motion train wreck.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 48,
+            "quote": "Your personality is drier than a desert with a drought.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 49,
+            "quote": "Your idea of innovation is microwaving cold coffee.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 50,
+            "quote": "If being unimpressive were a talent, you'd be a virtuoso.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 51,
+            "quote": "Your sense of direction is worse than a lost toddler in a corn maze.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 52,
+            "quote": "If your life were a novel, it would be in the fiction section – because no one believes it's real.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 53,
+            "quote": "Your social skills are like a deflated balloon – once vibrant, now just sad and saggy.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 54,
+            "quote": "Your achievements are like a unicorn with a hangover – non-existent and probably a bad idea.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 55,
+            "quote": "If stupidity were a fragrance, you'd be the eau de toilette.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 56,
+            "quote": "Your ideas are so fresh; they're practically fossils.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 57,
+            "quote": "If you were a vegetable, you'd be a couch potato.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 58,
+            "quote": "Your charisma is like a vampire in the sun – non-existent and burns on contact.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 59,
+            "quote": "Your thought process is slower than a snail in molasses.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 60,
+            "quote": "If laughter were the best medicine, your jokes would be lethal.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 61,
+            "quote": "Your sense of humor is like a bad sitcom – forced and cringe-worthy.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 62,
+            "quote": "If you were any blander, you'd be a plain rice cake.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 63,
+            "quote": "Your achievements are like a UFO sighting – rumored, but unconfirmed.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 64,
+            "quote": "Your life's narrative is like a bad soap opera – overdramatic and lacking substance.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 65,
+            "quote": "If you were a color, you'd be beige.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 66,
+            "quote": "Your presence is like a black hole – sucking the joy out of the room.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 67,
+            "quote": "Your IQ is so low; even Google Maps can't locate it.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 68,
+            "quote": "If being forgettable were an Olympic event, you'd win gold.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 69,
+            "quote": "Your aspirations are like a deflated balloon – once full of potential, now just a sad rubbery mess.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 70,
+            "quote": "If stupidity were a currency, you'd be a trillionaire.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 71,
+            "quote": "Your dreams are like a student loan – taking forever to pay off and causing constant regret.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 72,
+            "quote": "If failure were an art form, you'd be a Picasso.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 73,
+            "quote": "Your life choices are like a menu with only one option – disappointment.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 74,
+            "quote": "Your decision-making process is like a Magic 8-Ball – random and unreliable.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 75,
+            "quote": "If you were a superhero, you'd be Captain Underachievement.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 76,
+            "quote": "Your self-esteem is so low; it's a limbo champion.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 77,
+            "quote": "If your life were a novel, it would be a short story – because there's not much plot.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 78,
+            "quote": "Your achievements are like a unicorn – mythical and questionable.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 79,
+            "quote": "Your social skills are like a car with a flat tire – going nowhere fast.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 80,
+            "quote": "If common sense were a language, you'd be illiterate.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 81,
+            "quote": "Your charisma is like a black hole – drawing people in and leaving them feeling empty.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 82,
+            "quote": "If being uninteresting were a crime, you'd be serving a life sentence.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 83,
+            "quote": "Your work ethic is like a sloth on sedatives.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 84,
+            "quote": "Your life choices are like a Choose Your Own Adventure book – and you always choose the path of mediocrity.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 85,
+            "quote": "If you were any more forgettable, people would need reminders to ignore you.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 86,
+            "quote": "Your achievements are like a unicorn in a desert – non-existent and implausible.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 87,
+            "quote": "Your optimism is like a sunflower in a cave – admirable, but misplaced.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 88,
+            "quote": "If success were a race, you'd be lapped by a tortoise.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 89,
+            "quote": "Your personality is like a rock – solid, but utterly lifeless.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 90,
+            "quote": "If brilliance were a star, you'd be in a galaxy far, far away.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 91,
+            "quote": "Your sense of humor is like a flat tire – deflated and going nowhere.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 92,
+            "quote": "If you were a constellation, you'd be the black hole.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 93,
+            "quote": "Your decision-making skills are like a coin toss – 50/50, and no one's impressed.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 94,
+            "quote": "Your ideas are like a broken pencil – pointless.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 95,
+            "quote": "If being unremarkable were a skill, you'd be a grandmaster.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 96,
+            "quote": "Your life trajectory is like a roller coaster in a retirement home – slow, predictable, and slightly depressing.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 97,
+            "quote": "Your creativity is like a barren desert – desolate and devoid of any signs of life.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 98,
+            "quote": "If laziness were an Olympic sport, you'd be a gold medalist.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 99,
+            "quote": "Your charisma is like a summer blockbuster – lots of hype, but ultimately disappointing.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        },
+        {
+            "id": 100,
+            "quote": "If accomplishments were grains of sand, you'd be a desert.",
+            "addedDate": "2024-01-30T12:56:45+0000",
+            "addedBy": "ChatGPT Dan"
+        }
+    ]
+}
