@@ -30,6 +30,7 @@ class OnBoardingScreen extends StatelessWidget {
                 .pushReplacementNamed(const QuoteScreen().routeName);
           }
         },
+        centerBackground: true,
         headerBackgroundColor: Colors.white,
         finishButtonText: 'Let\'s go!',
         finishButtonStyle: const FinishButtonStyle(
@@ -40,27 +41,22 @@ class OnBoardingScreen extends StatelessWidget {
           SvgPicture.asset(
             "assets/images/onboarding/welcome.svg",
             semanticsLabel: 'welcome illustration',
-            height: 400,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/boost.svg",
             semanticsLabel: 'boost illustration',
-            height: 400,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/time.svg",
             semanticsLabel: 'clock illustration',
-            height: 400,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/share.svg",
             semanticsLabel: 'share illustration',
-            height: 400,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/simple.svg",
             semanticsLabel: 'welcome illustration',
-            height: 400,
           ),
         ],
         totalPage: 5,
@@ -83,38 +79,35 @@ class OnBoardingScreen extends StatelessWidget {
 
   Widget onBoardingItem(
       BuildContext context, String title, String description) {
-    return Container(
-      alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(
-            height: 480,
-          ),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: 24.0,
-              fontWeight: FontWeight.w600,
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 80),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              title,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
+            const SizedBox(
+              height: 20,
             ),
-          ),
-        ],
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

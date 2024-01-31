@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
@@ -52,10 +53,10 @@ class _QuoteWidgetState extends State<QuoteWidget> {
           alignment: Alignment.centerLeft,
           child: myQuoteToday == null
               ? const CircularProgressIndicator()
-              : Text(
+              : AutoSizeText(
                   myQuoteToday!.quote,
                   textAlign: TextAlign.left,
-                  textScaler: const TextScaler.linear(4),
+                  style: const TextStyle(fontSize: 50),
                 ),
         ),
       ),

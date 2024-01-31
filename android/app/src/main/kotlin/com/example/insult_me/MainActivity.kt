@@ -1,4 +1,4 @@
-package com.example.insult_me
+package dev.nikkothe.insult_me
 
 import io.flutter.embedding.android.FlutterActivity
 

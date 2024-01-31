@@ -21,7 +21,6 @@ class QuoteScreen extends StatelessWidget {
 
   Future<void> _showTimerPicker(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("notificationTime");
     String? notificationTime = prefs.getString("notificationTime");
 
     if (notificationTime == null) {
@@ -93,7 +92,14 @@ class QuoteScreen extends StatelessWidget {
                       databaseService.initializeDatabase().then(
                             (value) => databaseService.getMyQuoteToday().then(
                               (todayQuote) async {
-                                await Share.share(todayQuote.quote);
+                                await Share.share(
+                                  todayQuote.quote,
+                                  sharePositionOrigin: Rect.fromLTWH(
+                                      0,
+                                      0,
+                                      MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height / 2),
+                                );
                               },
                             ),
                           );
