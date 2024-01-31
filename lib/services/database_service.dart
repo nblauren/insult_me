@@ -8,6 +8,10 @@ import 'package:collection/collection.dart';
 class DatabaseService {
   late Database _database;
 
+  DatabaseService() {
+    initializeDatabase();
+  }
+
   Future<void> initializeDatabase() async {
     final String path = join(await getDatabasesPath(), 'insult_me_database.db');
 

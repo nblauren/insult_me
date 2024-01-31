@@ -6,6 +6,8 @@ import 'package:insult_me/screens/quote_screen.dart';
 import 'package:insult_me/services/initial_quotes_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -15,6 +17,9 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   NotificationService().initNotification();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   tz.initializeTimeZones();
   // InitScreen
   SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,12 +1,11 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
-import 'package:insult_me/services/notification_service.dart';
-import 'package:insult_me/utils/date_utils.dart';
+import 'package:insult_me/services/firestore_service.dart';
+import 'package:insult_me/services/sync_service.dart';
+import 'package:insult_me/widgets/quote_widget.dart';
+import 'package:insult_me/widgets/settings_widget.dart';
+import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:share_plus/share_plus.dart';
 
 class QuoteScreen extends StatefulWidget {
@@ -19,23 +18,43 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
+  int quoteCount = 0;
   Quote? myQuoteToday;
+  DatabaseService? databaseService;
 
   @override
   void initState() {
     super.initState();
-    initialization();
+    _initialization();
   }
 
-  void initialization() async {
-    var databaseService = DatabaseService();
-    await databaseService.initializeDatabase();
-    var todayQuote = await databaseService.getMyQuoteToday();
-    todayQuote ??= await databaseService.insertMyQuoteToday();
-    debugPrint(jsonEncode(todayQuote.toMap()));
-    setState(() {
-      myQuoteToday = todayQuote;
-    });
+  void _initialization() async {
+    databaseService = DatabaseService();
+    await _syncQuotes();
+    // Get/set my quote today
+    _setQuoteToday();
+  }
+
+  Future<void> _syncQuotes() async {
+    await SyncService().sync();
+  }
+
+  void _setQuoteToday() {
+    databaseService
+        ?.initializeDatabase()
+        .then((value) => databaseService?.getMyQuoteToday().then((todayQuote) {
+              if (todayQuote == null) {
+                databaseService?.insertMyQuoteToday().then((newTodayQuote) {
+                  setState(() {
+                    myQuoteToday = newTodayQuote;
+                  });
+                });
+              } else {
+                setState(() {
+                  myQuoteToday = todayQuote;
+                });
+              }
+            }));
   }
 
   @override
@@ -48,23 +67,12 @@ class _QuoteScreenState extends State<QuoteScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('"',
-                  textAlign: TextAlign.left, textScaler: TextScaler.linear(5)),
-              Expanded(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: myQuoteToday == null
-                        ? const CircularProgressIndicator()
-                        : Text(
-                            myQuoteToday!.quote,
-                            textAlign: TextAlign.left,
-                            textScaler: const TextScaler.linear(4),
-                          ),
-                  ),
-                ),
+              const Text(
+                '"',
+                textAlign: TextAlign.left,
+                textScaler: TextScaler.linear(5),
               ),
+              QuoteWidget(myQuoteToday: myQuoteToday),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,82 +84,19 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
-                        builder: (context) => Container(
-                          height: MediaQuery.of(context).size.height * 0.75,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0),
-                              topRight: Radius.circular(25.0),
-                            ),
-                          ),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.all(25.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Settings",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineLarge),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Expanded(
-                                        child: Text(
-                                          "Notification time",
-                                          style: TextStyle(
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          _showDialog(
-                                            CupertinoDatePicker(
-                                              initialDateTime: DateTime.now()
-                                                  .add(const Duration(
-                                                      minutes: 2)),
-                                              mode:
-                                                  CupertinoDatePickerMode.time,
-                                              use24hFormat: false,
-                                              onDateTimeChanged:
-                                                  (DateTime newTime) async {
-                                                await NotificationService()
-                                                    .scheduleNotification(
-                                                  1,
-                                                  "Daily Insult",
-                                                  "A new insult has been uttered.",
-                                                  TimeOfDay.fromDateTime(
-                                                      newTime),
-                                                  DateTimeComponents.time,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          DateTimeUtils.formatTime(
-                                              DateTime.now()),
-                                          style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                        builder: (context) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25.0),
+                                topRight: Radius.circular(25.0),
                               ),
                             ),
-                          ),
-                        ),
+                            child: const SettingsWidget(),
+                          );
+                        },
                       );
                     },
                   ),
@@ -162,34 +107,58 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       Share.share(myQuoteToday!.quote);
                     },
                   ),
+                  OutlinedButton(
+                    onPressed: () async {
+                      var insult = await showDialog<String>(
+                          context: context,
+                          builder: (context) {
+                            TextEditingController textFieldController =
+                                TextEditingController();
+                            return TextInputDialog(
+                              textFieldController: textFieldController,
+                              hint:
+                                  'Type your insult here and make someone cry',
+                              title: 'Share insult',
+                            );
+                          });
+                      if (insult != null && insult.length > 5) {
+                        FirestoreService()
+                            .addQuote(Quote(
+                                id: DateTime.now().millisecondsSinceEpoch,
+                                quote: insult,
+                                addedDate: DateTime.now(),
+                                addedBy: "Nikko"))
+                            .then((isSuccess) async {
+                          if (isSuccess) {
+                            _syncQuotes().then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                          "Successfuly added new insult")));
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Can't process your request this time.")));
+                          }
+                        });
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                    ),
+                    child: const Text(
+                      'Throw Insult',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-  // This function displays a CupertinoModalPopup with a reasonable fixed height
-  // which hosts CupertinoDatePicker.
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => Container(
-        height: 216,
-        padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system
-        // navigation bar.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        // Provide a background color for the popup.
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
-        child: SafeArea(
-          top: false,
-          child: child,
         ),
       ),
     );

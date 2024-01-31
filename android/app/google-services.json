@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "924917080363",
+    "project_id": "insultme-499d3",
+    "storage_bucket": "insultme-499d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924917080363:android:f8deb8ed7d2c2cb9c9656e",
+        "android_client_info": {
+          "package_name": "com.example.insult_me"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaWct4qGlqFHYJS1VnpEJBb44Lr61HWOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924917080363:android:0af7c0cdb21cb09dc9656e",
+        "android_client_info": {
+          "package_name": "com.example.rainbow_connection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaWct4qGlqFHYJS1VnpEJBb44Lr61HWOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924917080363:android:fadda416543ae5ccc9656e",
+        "android_client_info": {
+          "package_name": "dev.nikkothe.insult_me"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaWct4qGlqFHYJS1VnpEJBb44Lr61HWOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
