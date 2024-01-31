@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:insult_me/models/quote.dart';
-import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_sync_widget.dart';
-import 'package:insult_me/widgets/text_input_dialog.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});

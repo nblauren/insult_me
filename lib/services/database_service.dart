@@ -86,13 +86,13 @@ class DatabaseService {
     });
   }
 
-  Future<Quote?> getMyQuoteToday() async {
+  Future<Quote> getMyQuoteToday() async {
     List<MyQuote> quotes = await getMyQuotes();
     var myQuote = quotes
         .where((q) => DateUtils.isSameDay(q.addedDate, DateTime.now()))
         .firstOrNull;
     if (myQuote == null) {
-      return null;
+      return await insertMyQuoteToday();
     } else {
       return await getQuoteById(myQuote.quoteId);
     }

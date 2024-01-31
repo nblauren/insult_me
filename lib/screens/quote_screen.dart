@@ -8,53 +8,13 @@ import 'package:insult_me/widgets/settings_widget.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:share_plus/share_plus.dart';
 
-class QuoteScreen extends StatefulWidget {
+class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
 
   final String routeName = "/";
 
-  @override
-  State<QuoteScreen> createState() => _QuoteScreenState();
-}
-
-class _QuoteScreenState extends State<QuoteScreen> {
-  int quoteCount = 0;
-  Quote? myQuoteToday;
-  DatabaseService? databaseService;
-
-  @override
-  void initState() {
-    super.initState();
-    _initialization();
-  }
-
-  void _initialization() async {
-    databaseService = DatabaseService();
-    await _syncQuotes();
-    // Get/set my quote today
-    _setQuoteToday();
-  }
-
   Future<void> _syncQuotes() async {
     await SyncService().sync();
-  }
-
-  void _setQuoteToday() {
-    databaseService
-        ?.initializeDatabase()
-        .then((value) => databaseService?.getMyQuoteToday().then((todayQuote) {
-              if (todayQuote == null) {
-                databaseService?.insertMyQuoteToday().then((newTodayQuote) {
-                  setState(() {
-                    myQuoteToday = newTodayQuote;
-                  });
-                });
-              } else {
-                setState(() {
-                  myQuoteToday = todayQuote;
-                });
-              }
-            }));
   }
 
   @override
@@ -72,7 +32,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 textAlign: TextAlign.left,
                 textScaler: TextScaler.linear(5),
               ),
-              QuoteWidget(myQuoteToday: myQuoteToday),
+              const QuoteWidget(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +64,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
                   IconButton(
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      Share.share(myQuoteToday!.quote);
+                      var databaseService = DatabaseService();
+                      databaseService.initializeDatabase().then(
+                            (value) => databaseService.getMyQuoteToday().then(
+                              (todayQuote) async {
+                                await Share.share(todayQuote.quote);
+                              },
+                            ),
+                          );
                     },
                   ),
                   OutlinedButton(

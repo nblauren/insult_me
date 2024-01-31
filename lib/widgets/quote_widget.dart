@@ -1,10 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:insult_me/models/quote.dart';
+import 'package:insult_me/services/database_service.dart';
+import 'package:insult_me/services/sync_service.dart';
 
-class QuoteWidget extends StatelessWidget {
-  final Quote? myQuoteToday;
+class QuoteWidget extends StatefulWidget {
+  const QuoteWidget({super.key});
 
-  const QuoteWidget({super.key, required this.myQuoteToday});
+  @override
+  State<QuoteWidget> createState() => _QuoteWidgetState();
+}
+
+class _QuoteWidgetState extends State<QuoteWidget> {
+  Quote? myQuoteToday;
+  DatabaseService? databaseService;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialization();
+  }
+
+  void _initialization() async {
+    databaseService = DatabaseService();
+    await _syncQuotes();
+    // Get/set my quote today
+    _setQuoteToday();
+  }
+
+  Future<void> _syncQuotes() async {
+    await SyncService().sync();
+  }
+
+  void _setQuoteToday() {
+    databaseService?.initializeDatabase().then(
+          (value) => databaseService?.getMyQuoteToday().then(
+            (todayQuote) {
+              setState(() {
+                myQuoteToday = todayQuote;
+              });
+            },
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
