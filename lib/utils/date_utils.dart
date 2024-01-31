@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 class DateTimeUtils {
   static String formatDateTime(DateTime dateTime) {
     // Format DateTime as a string (e.g., "2024-01-28 14:30")
@@ -19,5 +22,14 @@ class DateTimeUtils {
     // Check if the given date is in the future
     final now = DateTime.now();
     return date.isAfter(now);
+  }
+
+  static TimeOfDay stringToTimeOfDay(String tod) {
+    final format = DateFormat.Hm();
+    return TimeOfDay.fromDateTime(format.parse(tod));
+  }
+
+  static String timeOfDayToString(TimeOfDay tod) {
+    return '${tod.hour.toString().padLeft(2, '0')}:${tod.minute.toString().padLeft(2, '0')}';
   }
 }

@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:insult_me/services/notification_service.dart';
-import 'package:insult_me/utils/date_utils.dart';
+import 'package:insult_me/widgets/notification_time_widget.dart';
 import 'package:insult_me/widgets/quote_sync_widget.dart';
 
 class SettingsWidget extends StatelessWidget {
@@ -25,9 +22,9 @@ class SettingsWidget extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            Row(
+            const Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
                     "Notification time",
                     style: TextStyle(
@@ -35,48 +32,7 @@ class SettingsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) => Container(
-                        height: 216,
-                        padding: const EdgeInsets.only(top: 6.0),
-                        margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
-                        color: CupertinoColors.systemBackground
-                            .resolveFrom(context),
-                        child: SafeArea(
-                          top: false,
-                          child: CupertinoDatePicker(
-                            initialDateTime: DateTime.now().add(
-                              const Duration(minutes: 2),
-                            ),
-                            mode: CupertinoDatePickerMode.time,
-                            use24hFormat: false,
-                            onDateTimeChanged: (DateTime newTime) async {
-                              await NotificationService().scheduleNotification(
-                                1,
-                                "Daily Insult",
-                                "A new insult has been uttered.",
-                                TimeOfDay.fromDateTime(newTime),
-                                DateTimeComponents.time,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    DateTimeUtils.formatTime(DateTime.now()),
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
+                NotificationTimeWidget(),
               ],
             ),
             const QuoteSyncWidget(),

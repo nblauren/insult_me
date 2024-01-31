@@ -3,10 +3,12 @@ import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
 import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/sync_service.dart';
+import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
@@ -17,8 +19,31 @@ class QuoteScreen extends StatelessWidget {
     await SyncService().sync();
   }
 
+  Future<void> _showTimerPicker(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("notificationTime");
+    String? notificationTime = prefs.getString("notificationTime");
+
+    if (notificationTime == null) {
+      if (context.mounted) {
+        TimeOfDay? selectedTime = await showTimePicker(
+          helpText: 'Set the time you want to receive an insult.',
+          barrierDismissible: false,
+          initialTime: TimeOfDay.now(),
+          initialEntryMode: TimePickerEntryMode.input,
+          context: context,
+        );
+        selectedTime ??= TimeOfDay.now();
+
+        prefs.setString(
+            "notificationTime", DateTimeUtils.timeOfDayToString(selectedTime));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showTimerPicker(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
