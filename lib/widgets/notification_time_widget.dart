@@ -50,8 +50,8 @@ class _NotificationTimeWidgetState extends State<NotificationTimeWidget> {
                     NotificationService()
                         .scheduleNotification(
                           1,
-                          "Daily Insult",
-                          "A new insult has been uttered.",
+                          "Dynamo Time!",
+                          "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance. ",
                           selectedTime,
                           DateTimeComponents.time,
                         )

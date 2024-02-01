@@ -41,22 +41,27 @@ class OnBoardingScreen extends StatelessWidget {
           SvgPicture.asset(
             "assets/images/onboarding/welcome.svg",
             semanticsLabel: 'welcome illustration',
+            height: MediaQuery.of(context).size.width * 0.80,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/boost.svg",
             semanticsLabel: 'boost illustration',
+            height: MediaQuery.of(context).size.width * 0.80,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/time.svg",
             semanticsLabel: 'clock illustration',
+            height: MediaQuery.of(context).size.width * 0.80,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/share.svg",
             semanticsLabel: 'share illustration',
+            height: MediaQuery.of(context).size.width * 0.80,
           ),
           SvgPicture.asset(
             "assets/images/onboarding/simple.svg",
             semanticsLabel: 'welcome illustration',
+            height: MediaQuery.of(context).size.width * 0.80,
           ),
         ],
         totalPage: 5,

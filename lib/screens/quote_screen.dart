@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
 import 'package:insult_me/services/device_info_service.dart';
 import 'package:insult_me/services/firestore_service.dart';
+import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/services/sync_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
@@ -37,6 +39,14 @@ class QuoteScreen extends StatelessWidget {
 
         prefs.setString(
             "notificationTime", DateTimeUtils.timeOfDayToString(selectedTime));
+
+        NotificationService().scheduleNotification(
+          1,
+          "Dynamo Time!",
+          "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance.",
+          selectedTime,
+          DateTimeComponents.time,
+        );
       }
     }
   }
