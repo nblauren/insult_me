@@ -6,7 +6,6 @@ import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/sync_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
-import 'package:insult_me/widgets/rating_average_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:share_plus/share_plus.dart';

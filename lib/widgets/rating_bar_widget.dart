@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:insult_me/services/device_info_service.dart';
-import 'package:insult_me/services/firestore_service.dart';
 
 class RatingBarWidget extends StatefulWidget {
   final int quoteId;
