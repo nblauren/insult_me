@@ -28,24 +28,28 @@ class QuoteScreen extends StatelessWidget {
 
     if (notificationTime == null) {
       if (context.mounted) {
-        TimeOfDay? selectedTime = await showTimePicker(
-          helpText: 'Set the time you want to receive an insult.',
-          barrierDismissible: false,
-          initialTime: TimeOfDay.now(),
-          initialEntryMode: TimePickerEntryMode.input,
-          context: context,
-        );
-        selectedTime ??= TimeOfDay.now();
+        NotificationService().requestPermissions().then(
+          (_) async {
+            TimeOfDay? selectedTime = await showTimePicker(
+              helpText: 'Set the time you want to receive an insult.',
+              barrierDismissible: false,
+              initialTime: TimeOfDay.now(),
+              initialEntryMode: TimePickerEntryMode.input,
+              context: context,
+            );
+            selectedTime ??= TimeOfDay.now();
 
-        prefs.setString(
-            "notificationTime", DateTimeUtils.timeOfDayToString(selectedTime));
+            prefs.setString("notificationTime",
+                DateTimeUtils.timeOfDayToString(selectedTime));
 
-        NotificationService().scheduleNotification(
-          1,
-          "Dynamo Time!",
-          "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance.",
-          selectedTime,
-          DateTimeComponents.time,
+            NotificationService().scheduleNotification(
+              1,
+              "Dynamo Time!",
+              "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance.",
+              selectedTime,
+              DateTimeComponents.time,
+            );
+          },
         );
       }
     }

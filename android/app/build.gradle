@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "dev.nikkothe.insultme"
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
