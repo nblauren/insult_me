@@ -5,6 +5,7 @@ import 'package:insult_me/screens/on_boarding_screen.dart';
 import 'package:insult_me/screens/quote_screen.dart';
 import 'package:insult_me/services/initial_quotes_service.dart';
 import 'package:insult_me/services/notification_service.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -27,7 +28,17 @@ Future<void> main() async {
   // End InitScreen
   FlutterNativeSplash.remove();
   await initialiseSql();
-  runApp(const MyApp());
+
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://dcedc6e03b1c6b4b6b831dcea34abdd4@o1346306.ingest.sentry.io/4506669873233920';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(const MyApp()),
+  );
 }
 
 Future<void> initialiseSql() async {

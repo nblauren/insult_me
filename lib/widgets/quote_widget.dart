@@ -50,15 +50,14 @@ class _QuoteWidgetState extends State<QuoteWidget> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Align(
-          alignment: Alignment.centerLeft,
-          child: myQuoteToday == null
-              ? const CircularProgressIndicator()
-              : AutoSizeText(
-                  myQuoteToday!.quote,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 50),
-                ),
-        ),
+            alignment: Alignment.centerLeft,
+            child: myQuoteToday == null
+                ? const CircularProgressIndicator()
+                : AutoSizeText(
+                    myQuoteToday!.quote,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(fontSize: 50),
+                  )),
       ),
     );
   }

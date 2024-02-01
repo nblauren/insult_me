@@ -36,6 +36,32 @@ class FirestoreService {
     }).toList();
   }
 
+  Future<QuoteRating?> getRatingByUserAndQuote(
+      String addedBy, String quoteId) async {
+    try {
+      // Perform a query to retrieve QuoteRating with the specified addedBy and quoteId values
+      QuerySnapshot querySnapshot = await ratingsCollection
+          .where('addedBy', isEqualTo: addedBy)
+          .where('quoteId', isEqualTo: quoteId)
+          .limit(1) // Limit the result to one document
+          .get();
+
+      // Check if there's any document in the snapshot
+      if (querySnapshot.docs.isNotEmpty) {
+        // Convert the document data to a QuoteRating object
+        var data =
+            Map<String, dynamic>.from(querySnapshot.docs.first.data() as Map);
+        return QuoteRating.fromMap(data);
+      } else {
+        // Return null if no matching document is found
+        return null;
+      }
+    } catch (e) {
+      // Handle the error, you might want to log
+      return null; // Return null in case of an error
+    }
+  }
+
   Future<bool> addQuoteRating(QuoteRating rating) async {
     try {
       await ratingsCollection.doc(rating.id.toString()).set(rating.toMap());

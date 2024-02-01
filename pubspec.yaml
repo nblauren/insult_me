@@ -27,6 +27,9 @@ dependencies:
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
   auto_size_text: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+  device_info_plus: ^9.1.2
+  sentry_flutter: ^7.16.0
 
 dev_dependencies:
   flutter_test:

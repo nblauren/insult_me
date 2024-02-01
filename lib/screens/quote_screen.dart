@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/services/database_service.dart';
+import 'package:insult_me/services/device_info_service.dart';
 import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/sync_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
+import 'package:insult_me/widgets/rating_average_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:share_plus/share_plus.dart';
@@ -51,10 +53,15 @@ class QuoteScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '"',
-                textAlign: TextAlign.left,
-                textScaler: TextScaler.linear(5),
+              const Row(
+                children: [
+                  Text(
+                    '"',
+                    textAlign: TextAlign.left,
+                    textScaler: TextScaler.linear(5),
+                  ),
+                  Spacer(),
+                ],
               ),
               const QuoteWidget(),
               Row(
@@ -120,28 +127,32 @@ class QuoteScreen extends StatelessWidget {
                             );
                           });
                       if (insult != null && insult.length > 5) {
-                        FirestoreService()
-                            .addQuote(Quote(
-                                id: DateTime.now().millisecondsSinceEpoch,
-                                quote: insult,
-                                addedDate: DateTime.now(),
-                                addedBy: "Nikko"))
-                            .then((isSuccess) async {
-                          if (isSuccess) {
-                            _syncQuotes().then((_) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                          "Successfuly added new insult")));
+                        DeviceInfoService.getDeviceId().then(
+                          (deviceId) {
+                            FirestoreService()
+                                .addQuote(Quote(
+                                    id: DateTime.now().millisecondsSinceEpoch,
+                                    quote: insult,
+                                    addedDate: DateTime.now(),
+                                    addedBy: deviceId ?? "nblaurenciana"))
+                                .then((isSuccess) async {
+                              if (isSuccess) {
+                                _syncQuotes().then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: Text(
+                                              "Successfuly added new insult")));
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Can't process your request this time.")));
+                              }
                             });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "Can't process your request this time.")));
-                          }
-                        });
+                          },
+                        );
                       }
                     },
                     style: OutlinedButton.styleFrom(
