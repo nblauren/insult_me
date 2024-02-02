@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:insult_me/provider/local_insult_count_provider.dart';
 import 'package:insult_me/widgets/notification_time_widget.dart';
 import 'package:insult_me/widgets/quote_sync_widget.dart';
+import 'package:provider/provider.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
@@ -35,7 +37,9 @@ class SettingsWidget extends StatelessWidget {
                 NotificationTimeWidget(),
               ],
             ),
-            const QuoteSyncWidget(),
+            QuoteSyncWidget(
+                quoteCount:
+                    context.watch<LocalInsultCountProvider>().quoteCount),
           ],
         ),
       ),

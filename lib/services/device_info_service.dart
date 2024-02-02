@@ -2,17 +2,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 
 class DeviceInfoService {
-  static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
-
-  static Future<String?> getDeviceId() async {
+  DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Future<String?> getDeviceId() async {
     try {
       // For Android and iOS platforms
 
-      if (DeviceInfoService.isAndroidPlatform()) {
-        final deviceInfo = await _deviceInfoPlugin.androidInfo;
+      if (isAndroidPlatform()) {
+        final deviceInfo = await deviceInfoPlugin.androidInfo;
         return deviceInfo.id;
-      } else if (DeviceInfoService.isIOSPlatform()) {
-        final deviceInfo = await _deviceInfoPlugin.iosInfo;
+      } else if (isIOSPlatform()) {
+        final deviceInfo = await deviceInfoPlugin.iosInfo;
         return deviceInfo.identifierForVendor;
       }
     } catch (e) {
@@ -22,11 +21,11 @@ class DeviceInfoService {
     return null;
   }
 
-  static bool isAndroidPlatform() {
-    return _deviceInfoPlugin is AndroidDeviceInfo;
+  bool isAndroidPlatform() {
+    return deviceInfoPlugin is AndroidDeviceInfo;
   }
 
-  static bool isIOSPlatform() {
-    return _deviceInfoPlugin is IosDeviceInfo;
+  bool isIOSPlatform() {
+    return deviceInfoPlugin is IosDeviceInfo;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:insult_me/services/notification_service.dart';
+import 'package:insult_me/services/locator_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,7 +47,8 @@ class _NotificationTimeWidgetState extends State<NotificationTimeWidget> {
               if (selectedTime != null) {
                 _setNotificationTime(selectedTime).then(
                   (_) {
-                    NotificationService()
+                    LocatorService()
+                        .notificationService
                         .scheduleNotification(
                           1,
                           "Dynamo Time!",

@@ -93,8 +93,9 @@ class NotificationService {
           notificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
 
-      final bool? grantedNotificationPermission =
-          await androidImplementation?.requestNotificationsPermission();
+      await androidImplementation?.requestNotificationsPermission();
+
+      // TODO: Check later if the user has permission to make notification
     }
   }
 }

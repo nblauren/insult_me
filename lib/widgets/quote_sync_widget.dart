@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:insult_me/services/database_service.dart';
-import 'package:insult_me/services/sync_service.dart';
+import 'package:insult_me/provider/local_insult_count_provider.dart';
+import 'package:insult_me/services/locator_service.dart';
+import 'package:provider/provider.dart';
 
 class QuoteSyncWidget extends StatefulWidget {
-  const QuoteSyncWidget({super.key});
+  final int quoteCount;
+  const QuoteSyncWidget({super.key, required this.quoteCount});
 
   @override
   State<QuoteSyncWidget> createState() => _QuoteSyncWidgetState();
 }
 
 class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
-  int quoteCount = 0;
-
   @override
   void initState() {
     super.initState();
-    updateQuoteCount();
+    updateQuoteCount(context);
   }
 
   @override
@@ -31,7 +31,7 @@ class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
           ),
         ),
         Text(
-          quoteCount.toString(),
+          widget.quoteCount.toString(),
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 24,
@@ -39,7 +39,10 @@ class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
         ),
         IconButton(
           onPressed: () {
-            SyncService().sync().then((value) => updateQuoteCount());
+            LocatorService()
+                .syncService
+                .sync()
+                .then((value) => updateQuoteCount(context));
           },
           icon: const Icon(Icons.refresh),
         ),
@@ -47,14 +50,11 @@ class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
     );
   }
 
-  void updateQuoteCount() {
-    var databaseService = DatabaseService();
-    databaseService.initializeDatabase().then((_) {
-      databaseService.getQuotes().then((quotes) {
-        setState(() {
-          quoteCount = quotes.length;
-        });
-      });
-    });
+  void updateQuoteCount(BuildContext context) {
+    LocatorService().databaseService.getQuotes().then(
+      (quotes) {
+        context.read<LocalInsultCountProvider>().setDailyInsult(quotes.length);
+      },
+    );
   }
 }

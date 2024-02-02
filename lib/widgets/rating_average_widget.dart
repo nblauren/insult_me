@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:insult_me/models/quote.dart';
-import 'package:insult_me/services/database_service.dart';
-import 'package:insult_me/services/firestore_service.dart';
+import 'package:insult_me/services/locator_service.dart';
 
 class RatingAverageWidget extends StatefulWidget {
   const RatingAverageWidget({super.key});
@@ -13,7 +12,6 @@ class RatingAverageWidget extends StatefulWidget {
 
 class _RatingAverageWidgetState extends State<RatingAverageWidget> {
   Quote? myQuoteToday;
-  DatabaseService? databaseService;
 
   @override
   void initState() {
@@ -22,30 +20,28 @@ class _RatingAverageWidgetState extends State<RatingAverageWidget> {
   }
 
   void _initialization() async {
-    databaseService = DatabaseService();
     // Get/set my quote today
     _setQuoteToday();
   }
 
   void _setQuoteToday() {
-    databaseService?.initializeDatabase().then(
-          (value) => databaseService?.getMyQuoteToday().then(
-            (todayQuote) {
-              setState(() {
-                myQuoteToday = todayQuote;
-              });
-            },
-          ),
-        );
+    LocatorService().databaseService.getMyQuoteToday().then(
+      (todayQuote) {
+        setState(() {
+          myQuoteToday = todayQuote;
+        });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    FirestoreService firestoreService = FirestoreService();
     return myQuoteToday == null
         ? Container()
         : FutureBuilder<double>(
-            future: firestoreService.getAverageRating(myQuoteToday!.id),
+            future: LocatorService()
+                .firestoreService
+                .getAverageRating(myQuoteToday!.id),
             builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator(); // or some other widget while waiting

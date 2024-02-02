@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:insult_me/services/device_info_service.dart';
+import 'package:insult_me/services/locator_service.dart';
 
 class RatingBarWidget extends StatefulWidget {
   final int quoteId;
@@ -14,7 +14,7 @@ class _RatingBarWidgetState extends State<RatingBarWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
-      future: DeviceInfoService.getDeviceId(),
+      future: LocatorService().deviceInfoService.getDeviceId(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator(); // or some other widget while waiting

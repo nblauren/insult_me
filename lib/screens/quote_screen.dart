@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insult_me/models/quote.dart';
+import 'package:insult_me/provider/daily_insult_provider.dart';
 import 'package:insult_me/services/database_service.dart';
 import 'package:insult_me/services/device_info_service.dart';
 import 'package:insult_me/services/firestore_service.dart';
+import 'package:insult_me/services/locator_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/services/sync_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +21,15 @@ class QuoteScreen extends StatelessWidget {
 
   final String routeName = "/";
 
-  Future<void> _syncQuotes() async {
-    await SyncService().sync();
+  Future<void> _setQuoteToday(BuildContext context) async {
+    DatabaseService? databaseService = DatabaseService();
+    databaseService.initializeDatabase().then(
+          (value) => databaseService.getMyQuoteToday().then(
+            (todayQuote) {
+              context.read<DailyInsultProvider>().setDailyInsult(todayQuote);
+            },
+          ),
+        );
   }
 
   Future<void> _showTimerPicker(BuildContext context) async {
@@ -57,131 +67,158 @@ class QuoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _showTimerPicker(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await SyncService().sync();
+      if (context.mounted) await _showTimerPicker(context);
+    });
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Row(
-                children: [
-                  Text(
-                    '"',
-                    textAlign: TextAlign.left,
-                    textScaler: TextScaler.linear(5),
-                  ),
-                  Spacer(),
-                ],
-              ),
-              const QuoteWidget(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                topRight: Radius.circular(25.0),
-                              ),
-                            ),
-                            child: const SettingsWidget(),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () {
-                      var databaseService = DatabaseService();
-                      databaseService.initializeDatabase().then(
-                            (value) => databaseService.getMyQuoteToday().then(
-                              (todayQuote) async {
-                                await Share.share(
-                                  todayQuote.quote,
-                                  sharePositionOrigin: Rect.fromLTWH(
-                                      0,
-                                      0,
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height / 2),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: FutureBuilder(
+              future: _setQuoteToday(context),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  _showTimerPicker(context);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        children: [
+                          Text(
+                            '"',
+                            textAlign: TextAlign.left,
+                            textScaler: TextScaler.linear(5),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      const QuoteWidget(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.settings),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.75,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(25.0),
+                                        topRight: Radius.circular(25.0),
+                                      ),
+                                    ),
+                                    child: const SettingsWidget(),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.share),
+                            onPressed: () {
+                              var databaseService = DatabaseService();
+                              databaseService.initializeDatabase().then(
+                                    (value) =>
+                                        databaseService.getMyQuoteToday().then(
+                                      (todayQuote) async {
+                                        await Share.share(
+                                          todayQuote.quote,
+                                          sharePositionOrigin: Rect.fromLTWH(
+                                              0,
+                                              0,
+                                              MediaQuery.of(context).size.width,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  2),
+                                        );
+                                      },
+                                    ),
+                                  );
+                            },
+                          ),
+                          OutlinedButton(
+                            onPressed: () async {
+                              var insult = await showDialog<String>(
+                                  context: context,
+                                  builder: (context) {
+                                    TextEditingController textFieldController =
+                                        TextEditingController();
+                                    return TextInputDialog(
+                                      textFieldController: textFieldController,
+                                      hint:
+                                          'Type your insult here and make someone cry',
+                                      title: 'Share insult',
+                                    );
+                                  });
+                              if (insult != null && insult.length > 5) {
+                                LocatorService()
+                                    .deviceInfoService
+                                    .getDeviceId()
+                                    .then(
+                                  (deviceId) {
+                                    FirestoreService()
+                                        .addQuote(Quote(
+                                            id: DateTime.now()
+                                                .millisecondsSinceEpoch,
+                                            quote: insult,
+                                            addedDate: DateTime.now(),
+                                            addedBy:
+                                                deviceId ?? "nblaurenciana"))
+                                        .then((isSuccess) async {
+                                      if (isSuccess) {
+                                        SyncService().sync().then((_) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  content: Text(
+                                                      "Successfuly added new insult")));
+                                        });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .error,
+                                                content: const Text(
+                                                    "Can't process your request this time.")));
+                                      }
+                                    });
+                                  },
                                 );
-                              },
-                            ),
-                          );
-                    },
-                  ),
-                  OutlinedButton(
-                    onPressed: () async {
-                      var insult = await showDialog<String>(
-                          context: context,
-                          builder: (context) {
-                            TextEditingController textFieldController =
-                                TextEditingController();
-                            return TextInputDialog(
-                              textFieldController: textFieldController,
-                              hint:
-                                  'Type your insult here and make someone cry',
-                              title: 'Share insult',
-                            );
-                          });
-                      if (insult != null && insult.length > 5) {
-                        DeviceInfoService.getDeviceId().then(
-                          (deviceId) {
-                            FirestoreService()
-                                .addQuote(Quote(
-                                    id: DateTime.now().millisecondsSinceEpoch,
-                                    quote: insult,
-                                    addedDate: DateTime.now(),
-                                    addedBy: deviceId ?? "nblaurenciana"))
-                                .then((isSuccess) async {
-                              if (isSuccess) {
-                                _syncQuotes().then((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          behavior: SnackBarBehavior.floating,
-                                          content: Text(
-                                              "Successfuly added new insult")));
-                                });
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Can't process your request this time.")));
                               }
-                            });
-                          },
-                        );
-                      }
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                    ),
-                    child: const Text(
-                      'Throw Insult',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                            ),
+                            child: const Text(
+                              'Throw Insult',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+              },
+            )),
       ),
     );
   }
