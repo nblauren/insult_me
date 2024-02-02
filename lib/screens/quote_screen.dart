@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:insult_me/enum/snackbar_type_enum.dart';
 import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/provider/daily_insult_provider.dart';
-import 'package:insult_me/services/database_service.dart';
-import 'package:insult_me/services/device_info_service.dart';
-import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/locator_service.dart';
-import 'package:insult_me/services/notification_service.dart';
-import 'package:insult_me/services/sync_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
+import 'package:insult_me/widgets/snackbar_service.dart';
 import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
@@ -22,23 +17,20 @@ class QuoteScreen extends StatelessWidget {
   final String routeName = "/";
 
   Future<void> _setQuoteToday(BuildContext context) async {
-    DatabaseService? databaseService = DatabaseService();
-    databaseService.initializeDatabase().then(
-          (value) => databaseService.getMyQuoteToday().then(
-            (todayQuote) {
-              context.read<DailyInsultProvider>().setDailyInsult(todayQuote);
-            },
-          ),
-        );
+    LocatorService.databaseService.getMyQuoteToday().then(
+      (todayQuote) {
+        context.read<DailyInsultProvider>().setDailyInsult(todayQuote);
+      },
+    );
   }
 
   Future<void> _showTimerPicker(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? notificationTime = prefs.getString("notificationTime");
+    String? notificationTime =
+        await LocatorService.sharedPreferenceHelper.notificationTime;
 
     if (notificationTime == null) {
       if (context.mounted) {
-        NotificationService().requestPermissions().then(
+        LocatorService.notificationService.requestPermissions().then(
           (_) async {
             TimeOfDay? selectedTime = await showTimePicker(
               helpText: 'Set the time you want to receive an insult.',
@@ -49,15 +41,11 @@ class QuoteScreen extends StatelessWidget {
             );
             selectedTime ??= TimeOfDay.now();
 
-            prefs.setString("notificationTime",
+            await LocatorService.sharedPreferenceHelper.saveNotificationTime(
                 DateTimeUtils.timeOfDayToString(selectedTime));
 
-            NotificationService().scheduleNotification(
-              1,
-              "Dynamo Time!",
-              "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance.",
+            LocatorService.notificationService.scheduleNotification(
               selectedTime,
-              DateTimeComponents.time,
             );
           },
         );
@@ -67,21 +55,19 @@ class QuoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await SyncService().sync();
-      if (context.mounted) await _showTimerPicker(context);
-    });
     return Scaffold(
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: FutureBuilder(
-              future: _setQuoteToday(context),
+              future: Future.wait([
+                _setQuoteToday(context),
+                _showTimerPicker(context),
+              ]),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  _showTimerPicker(context);
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,25 +115,20 @@ class QuoteScreen extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.share),
                             onPressed: () {
-                              var databaseService = DatabaseService();
-                              databaseService.initializeDatabase().then(
-                                    (value) =>
-                                        databaseService.getMyQuoteToday().then(
-                                      (todayQuote) async {
-                                        await Share.share(
-                                          todayQuote.quote,
-                                          sharePositionOrigin: Rect.fromLTWH(
-                                              0,
-                                              0,
-                                              MediaQuery.of(context).size.width,
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2),
-                                        );
-                                      },
-                                    ),
+                              LocatorService.databaseService
+                                  .getMyQuoteToday()
+                                  .then(
+                                (todayQuote) async {
+                                  await Share.share(
+                                    todayQuote.quote,
+                                    sharePositionOrigin: Rect.fromLTWH(
+                                        0,
+                                        0,
+                                        MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.height / 2),
                                   );
+                                },
+                              );
                             },
                           ),
                           OutlinedButton(
@@ -165,12 +146,11 @@ class QuoteScreen extends StatelessWidget {
                                     );
                                   });
                               if (insult != null && insult.length > 5) {
-                                LocatorService()
-                                    .deviceInfoService
+                                LocatorService.deviceInfoService
                                     .getDeviceId()
                                     .then(
                                   (deviceId) {
-                                    FirestoreService()
+                                    LocatorService.firestoreService
                                         .addQuote(Quote(
                                             id: DateTime.now()
                                                 .millisecondsSinceEpoch,
@@ -180,23 +160,19 @@ class QuoteScreen extends StatelessWidget {
                                                 deviceId ?? "nblaurenciana"))
                                         .then((isSuccess) async {
                                       if (isSuccess) {
-                                        SyncService().sync().then((_) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  content: Text(
-                                                      "Successfuly added new insult")));
+                                        LocatorService.syncService
+                                            .sync()
+                                            .then((_) {
+                                          LocatorService.snackbarService
+                                              .showSnackbar(context,
+                                                  "Successfuly added new insult",
+                                                  type: SnackbarType.success);
                                         });
                                       } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .error,
-                                                content: const Text(
-                                                    "Can't process your request this time.")));
+                                        LocatorService.snackbarService.showSnackbar(
+                                            context,
+                                            "Can't process your request this time.",
+                                            type: SnackbarType.error);
                                       }
                                     });
                                   },

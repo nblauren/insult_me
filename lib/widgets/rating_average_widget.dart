@@ -25,7 +25,7 @@ class _RatingAverageWidgetState extends State<RatingAverageWidget> {
   }
 
   void _setQuoteToday() {
-    LocatorService().databaseService.getMyQuoteToday().then(
+    LocatorService.databaseService.getMyQuoteToday().then(
       (todayQuote) {
         setState(() {
           myQuoteToday = todayQuote;
@@ -39,8 +39,7 @@ class _RatingAverageWidgetState extends State<RatingAverageWidget> {
     return myQuoteToday == null
         ? Container()
         : FutureBuilder<double>(
-            future: LocatorService()
-                .firestoreService
+            future: LocatorService.firestoreService
                 .getAverageRating(myQuoteToday!.id),
             builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

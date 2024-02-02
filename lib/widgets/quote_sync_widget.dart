@@ -39,8 +39,7 @@ class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
         ),
         IconButton(
           onPressed: () {
-            LocatorService()
-                .syncService
+            LocatorService.syncService
                 .sync()
                 .then((value) => updateQuoteCount(context));
           },
@@ -51,7 +50,7 @@ class _QuoteSyncWidgetState extends State<QuoteSyncWidget> {
   }
 
   void updateQuoteCount(BuildContext context) {
-    LocatorService().databaseService.getQuotes().then(
+    LocatorService.databaseService.getQuotes().then(
       (quotes) {
         context.read<LocalInsultCountProvider>().setDailyInsult(quotes.length);
       },

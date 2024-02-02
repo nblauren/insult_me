@@ -5,37 +5,92 @@ import 'package:insult_me/services/firestore_service.dart';
 import 'package:insult_me/services/initial_quotes_service.dart';
 import 'package:insult_me/services/notification_service.dart';
 import 'package:insult_me/services/sync_service.dart';
+import 'package:insult_me/utils/shared_preferences_helper.dart';
+import 'package:insult_me/widgets/snackbar_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// A service locator class to manage and retrieve various services.
 class LocatorService {
-  final GetIt _getIt = GetIt.instance;
+  static final GetIt getIt = GetIt.instance;
 
   /// Registers all the singleton services.
-  void setup() {
-    _getIt.registerSingleton<NotificationService>(NotificationService());
-    _getIt.registerSingleton<DatabaseService>(DatabaseService());
-    _getIt.registerSingleton<FirestoreService>(FirestoreService());
-    _getIt.registerSingleton<InitialQuotesService>(InitialQuotesService());
-    _getIt.registerSingleton<SyncService>(SyncService());
-    _getIt.registerSingleton<DeviceInfoService>(DeviceInfoService());
+  static Future<void> configureLocalModuleInjection() async {
+    // Register SharedPreferences as a singleton asynchronously
+    getIt.registerSingletonAsync<SharedPreferences>(
+        SharedPreferences.getInstance);
+
+    // Create an instance of SharedPreferenceHelper using the asynchronously retrieved SharedPreferences instance
+    getIt.registerSingleton<SharedPreferenceHelper>(
+      SharedPreferenceHelper(
+        await getIt.getAsync<SharedPreferences>(),
+      ),
+    );
+
+    // Register NotificationService as a singleton
+    getIt.registerSingleton<NotificationService>(
+      NotificationService(),
+    );
+
+    // Register DatabaseService as a singleton
+    getIt.registerSingleton<DatabaseService>(
+      DatabaseService(),
+    );
+
+    // Register FirestoreService as a singleton
+    getIt.registerSingleton<FirestoreService>(
+      FirestoreService(),
+    );
+
+    // Register InitialQuotesService as a singleton
+    getIt.registerSingleton<InitialQuotesService>(
+      InitialQuotesService(databaseService: getIt<DatabaseService>()),
+    );
+
+    // Register SyncService as a singleton
+    getIt.registerSingleton<SyncService>(
+      SyncService(
+          databaseService: getIt<DatabaseService>(),
+          firestoreService: getIt<FirestoreService>()),
+    );
+
+    // Register DeviceInfoService as a singleton
+    getIt.registerSingleton<DeviceInfoService>(
+      DeviceInfoService(),
+    );
+
+    // Register DeviceInfoService as a singleton
+    getIt.registerSingleton<SnackbarService>(
+      SnackbarService(),
+    );
   }
 
-  /// Retrieves the [NotificationService] instance.
-  NotificationService get notificationService => _getIt<NotificationService>();
+  /// Getter for SharedPreferences instance.
+  static SharedPreferences get sharedPreferences => getIt<SharedPreferences>();
 
-  /// Retrieves the [DatabaseService] instance.
-  DatabaseService get databaseService => _getIt<DatabaseService>();
+  /// Getter for SharedPreferenceHelper instance.
+  static SharedPreferenceHelper get sharedPreferenceHelper =>
+      getIt<SharedPreferenceHelper>();
 
-  /// Retrieves the [FirestoreService] instance.
-  FirestoreService get firestoreService => _getIt<FirestoreService>();
+  /// Getter for NotificationService instance.
+  static NotificationService get notificationService =>
+      getIt<NotificationService>();
 
-  /// Retrieves the [InitialQuotesService] instance.
-  InitialQuotesService get initialQuotesService =>
-      _getIt<InitialQuotesService>();
+  /// Getter for DatabaseService instance.
+  static DatabaseService get databaseService => getIt<DatabaseService>();
 
-  /// Retrieves the [SyncService] instance.
-  SyncService get syncService => _getIt<SyncService>();
+  /// Getter for FirestoreService instance.
+  static FirestoreService get firestoreService => getIt<FirestoreService>();
 
-  /// Retrieves the [SyncService] instance.
-  DeviceInfoService get deviceInfoService => _getIt<DeviceInfoService>();
+  /// Getter for InitialQuotesService instance.
+  static InitialQuotesService get initialQuotesService =>
+      getIt<InitialQuotesService>();
+
+  /// Getter for SyncService instance.
+  static SyncService get syncService => getIt<SyncService>();
+
+  /// Getter for DeviceInfoService instance.
+  static DeviceInfoService get deviceInfoService => getIt<DeviceInfoService>();
+
+  /// Getter for DeviceInfoService instance.
+  static SnackbarService get snackbarService => getIt<SnackbarService>();
 }

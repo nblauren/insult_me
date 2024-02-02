@@ -1,19 +1,24 @@
-import 'package:insult_me/services/locator_service.dart';
+import 'package:insult_me/services/database_service.dart';
+import 'package:insult_me/services/firestore_service.dart';
 
 class SyncService {
-  Future<void> sync() async {
-    await LocatorService().databaseService.initializeDatabase();
+  final DatabaseService databaseService;
+  final FirestoreService firestoreService;
 
-    var localQuotes = await LocatorService().databaseService.getQuotes();
+  SyncService({required this.firestoreService, required this.databaseService});
+
+  Future<void> sync() async {
+    await databaseService.initializeDatabase();
+
+    var localQuotes = await databaseService.getQuotes();
     var localQuotesIds = localQuotes.map((e) => e.id);
 
-    var firestoreQuotes =
-        await LocatorService().firestoreService.getAllQuotes();
+    var firestoreQuotes = await firestoreService.getAllQuotes();
 
     var notInLocalQuotes =
         firestoreQuotes.where((q) => !localQuotesIds.contains(q.id));
     for (var fireBaseQuote in notInLocalQuotes) {
-      LocatorService().databaseService.insertQuote(fireBaseQuote);
+      databaseService.insertQuote(fireBaseQuote);
     }
   }
 }

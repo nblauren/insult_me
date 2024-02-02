@@ -14,7 +14,7 @@ class _RatingBarWidgetState extends State<RatingBarWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
-      future: LocatorService().deviceInfoService.getDeviceId(),
+      future: LocatorService.deviceInfoService.getDeviceId(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator(); // or some other widget while waiting

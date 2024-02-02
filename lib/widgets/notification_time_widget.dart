@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:insult_me/services/locator_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationTimeWidget extends StatefulWidget {
   const NotificationTimeWidget({super.key});
@@ -15,8 +13,8 @@ class _NotificationTimeWidgetState extends State<NotificationTimeWidget> {
   TimeOfDay? notificationTime;
 
   Future<TimeOfDay> get _getNotificationTime async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? notificationTime = prefs.getString("notificationTime");
+    String? notificationTime =
+        await LocatorService.sharedPreferenceHelper.notificationTime;
 
     if (notificationTime == null) {
       return TimeOfDay.now();
@@ -26,9 +24,8 @@ class _NotificationTimeWidgetState extends State<NotificationTimeWidget> {
   }
 
   Future<void> _setNotificationTime(TimeOfDay tod) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString("notificationTime", DateTimeUtils.timeOfDayToString(tod));
+    await LocatorService.sharedPreferenceHelper
+        .saveNotificationTime(DateTimeUtils.timeOfDayToString(tod));
   }
 
   @override
@@ -47,14 +44,9 @@ class _NotificationTimeWidgetState extends State<NotificationTimeWidget> {
               if (selectedTime != null) {
                 _setNotificationTime(selectedTime).then(
                   (_) {
-                    LocatorService()
-                        .notificationService
+                    LocatorService.notificationService
                         .scheduleNotification(
-                          1,
-                          "Dynamo Time!",
-                          "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance. ",
                           selectedTime,
-                          DateTimeComponents.time,
                         )
                         .then((value) => setState(
                               () {

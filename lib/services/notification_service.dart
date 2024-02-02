@@ -43,12 +43,14 @@ class NotificationService {
     await notificationsPlugin.cancelAll();
   }
 
-  Future<void> scheduleNotification(
-      int id, String title, String body, TimeOfDay eventTime,
-      [DateTimeComponents? dateTimeComponents]) async {
+  Future<void> scheduleNotification(TimeOfDay eventTime) async {
     // remove all scheduled notification before creating a new one
     cancelAllNotifications();
-
+    int id = 0;
+    String title = "Dynamo Time!";
+    String body =
+        "Rise and shine, you magnificent underachiever! Time for your daily dose of brilliance.";
+    DateTimeComponents? dateTimeComponents = DateTimeComponents.time;
     //Create new schedule
     DateTime date = DateTime.now();
     final scheduledTime =
@@ -70,9 +72,10 @@ class NotificationService {
     debugPrint('Scheduled');
   }
 
-  Future<void> requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await notificationsPlugin
+  Future<bool> requestPermissions() async {
+    bool? allowed = false;
+    if (Platform.isIOS) {
+      allowed = await notificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -80,7 +83,8 @@ class NotificationService {
             badge: true,
             sound: true,
           );
-      await notificationsPlugin
+    } else if (Platform.isMacOS) {
+      allowed = await notificationsPlugin
           .resolvePlatformSpecificImplementation<
               MacOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -93,9 +97,8 @@ class NotificationService {
           notificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
 
-      await androidImplementation?.requestNotificationsPermission();
-
-      // TODO: Check later if the user has permission to make notification
+      allowed = await androidImplementation?.requestNotificationsPermission();
     }
+    return allowed ?? false;
   }
 }

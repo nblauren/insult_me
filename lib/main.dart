@@ -8,7 +8,6 @@ import 'package:insult_me/screens/quote_screen.dart';
 import 'package:insult_me/services/locator_service.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -27,30 +26,34 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Setup Service Locator to manage dependencies
-  LocatorService().setup();
+  await LocatorService.configureLocalModuleInjection();
 
   // Configure and display the native splash screen
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // Initialize notification service from the LocatorService
-  LocatorService().notificationService.initNotification();
+  await LocatorService.notificationService.initNotification();
 
   // Initialize time zones
   tz.initializeTimeZones();
 
   // Retrieve the initial screen value from shared preferences
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = prefs.getInt("initScreen");
+  initScreen = await LocatorService.sharedPreferenceHelper.initScreen;
+
+  //Initialize Notification Service
+  await LocatorService.notificationService.initNotification();
+
+  // Initialize Database Service
+  await LocatorService.databaseService.initializeDatabase();
+
+  // Initialise the local database
+  await initialiseSql();
+
+  // Retrieve new insults from Firebase
+  await LocatorService.syncService.sync();
 
   // Remove native splash screen
   FlutterNativeSplash.remove();
-
-  //I nitialize Notification Service
-  LocatorService().notificationService.initNotification();
-
-  // Initialize Database Service
-  LocatorService().databaseService.initializeDatabase();
-
   // Initialize the Sentry SDK for error reporting
   await SentryFlutter.init(
     (options) {
@@ -65,7 +68,7 @@ Future<void> main() async {
 // Function to initialize the database by importing quotes
 Future<void> initialiseSql() async {
   if (initScreen == 0 || initScreen == null) {
-    await LocatorService().initialQuotesService.importQuotes();
+    await LocatorService.initialQuotesService.importQuotes();
   }
 }
 

@@ -3,7 +3,7 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:insult_me/screens/quote_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:insult_me/services/locator_service.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -23,8 +23,7 @@ class OnBoardingScreen extends StatelessWidget {
       ),
       home: OnBoardingSlider(
         onFinish: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setInt("initScreen", 1);
+          await LocatorService.sharedPreferenceHelper.saveInitScreen(1);
           if (context.mounted) {
             await Navigator.of(context)
                 .pushReplacementNamed(const QuoteScreen().routeName);
