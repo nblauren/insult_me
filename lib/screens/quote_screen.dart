@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:insult_me/enum/snackbar_type_enum.dart';
-import 'package:insult_me/models/quote.dart';
 import 'package:insult_me/provider/daily_insult_provider.dart';
 import 'package:insult_me/services/locator_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
+import 'package:insult_me/widgets/new_insult_widget.dart';
 import 'package:insult_me/widgets/quote_widget.dart';
 import 'package:insult_me/widgets/settings_widget.dart';
-import 'package:insult_me/widgets/snackbar_service.dart';
-import 'package:insult_me/widgets/text_input_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -131,63 +128,7 @@ class QuoteScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          OutlinedButton(
-                            onPressed: () async {
-                              var insult = await showDialog<String>(
-                                  context: context,
-                                  builder: (context) {
-                                    TextEditingController textFieldController =
-                                        TextEditingController();
-                                    return TextInputDialog(
-                                      textFieldController: textFieldController,
-                                      hint:
-                                          'Type your insult here and make someone cry',
-                                      title: 'Share insult',
-                                    );
-                                  });
-                              if (insult != null && insult.length > 5) {
-                                LocatorService.deviceInfoService
-                                    .getDeviceId()
-                                    .then(
-                                  (deviceId) {
-                                    LocatorService.firestoreService
-                                        .addQuote(Quote(
-                                            id: DateTime.now()
-                                                .millisecondsSinceEpoch,
-                                            quote: insult,
-                                            addedDate: DateTime.now(),
-                                            addedBy:
-                                                deviceId ?? "nblaurenciana"))
-                                        .then((isSuccess) async {
-                                      if (isSuccess) {
-                                        LocatorService.syncService
-                                            .sync()
-                                            .then((_) {
-                                          LocatorService.snackbarService
-                                              .showSnackbar(context,
-                                                  "Successfuly added new insult",
-                                                  type: SnackbarType.success);
-                                        });
-                                      } else {
-                                        LocatorService.snackbarService.showSnackbar(
-                                            context,
-                                            "Can't process your request this time.",
-                                            type: SnackbarType.error);
-                                      }
-                                    });
-                                  },
-                                );
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                            ),
-                            child: const Text(
-                              'Throw Insult',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          ),
+                          const NewInsultWidget(),
                         ],
                       ),
                     ],

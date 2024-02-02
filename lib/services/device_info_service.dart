@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +8,10 @@ class DeviceInfoService {
   Future<String?> getDeviceId() async {
     try {
       // For Android and iOS platforms
-
-      if (isAndroidPlatform()) {
+      if (Platform.isAndroid) {
         final deviceInfo = await deviceInfoPlugin.androidInfo;
         return deviceInfo.id;
-      } else if (isIOSPlatform()) {
+      } else if (Platform.isIOS) {
         final deviceInfo = await deviceInfoPlugin.iosInfo;
         return deviceInfo.identifierForVendor;
       }
@@ -19,13 +20,5 @@ class DeviceInfoService {
       return null;
     }
     return null;
-  }
-
-  bool isAndroidPlatform() {
-    return deviceInfoPlugin is AndroidDeviceInfo;
-  }
-
-  bool isIOSPlatform() {
-    return deviceInfoPlugin is IosDeviceInfo;
   }
 }
