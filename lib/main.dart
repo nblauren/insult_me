@@ -54,6 +54,7 @@ Future<void> main() async {
 
   // Remove native splash screen
   FlutterNativeSplash.remove();
+
   // Initialize the Sentry SDK for error reporting
   await SentryFlutter.init(
     (options) {

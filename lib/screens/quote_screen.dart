@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:insult_me/provider/daily_insult_provider.dart';
 import 'package:insult_me/services/locator_service.dart';
 import 'package:insult_me/utils/date_utils.dart';
@@ -15,8 +16,14 @@ class QuoteScreen extends StatelessWidget {
 
   Future<void> _setQuoteToday(BuildContext context) async {
     LocatorService.databaseService.getMyQuoteToday().then(
-      (todayQuote) {
+      (todayQuote) async {
         context.read<DailyInsultProvider>().setDailyInsult(todayQuote);
+        await HomeWidget.setAppGroupId('group.dev.nikkothe.insultme');
+        await HomeWidget.saveWidgetData<String>('insult', todayQuote.quote);
+        await HomeWidget.updateWidget(
+          name: 'InsultMeWidgetProvider',
+          iOSName: 'InsultMeWidget',
+        );
       },
     );
   }
