@@ -110,7 +110,14 @@ class _QuoteScreenState extends State<QuoteScreen> with WidgetsBindingObserver {
                           Spacer(),
                         ],
                       ),
-                      const QuoteWidget(),
+                      context.watch<DailyInsultProvider>().dailyInsult == null
+                          ? const CircularProgressIndicator()
+                          : QuoteWidget(
+                              quote: context
+                                  .watch<DailyInsultProvider>()
+                                  .dailyInsult!
+                                  .quote,
+                            ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
